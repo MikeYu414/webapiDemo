@@ -27,7 +27,9 @@ namespace WebApiDemo.Controllers
         {
             var certSetting = _config.GetSection("SharePointCertificate").Get<SPCertificateSetting>();
             var spSetting = _config.GetSection("SharePointConnection").Get<SharePointSettingsModel>();
-            return new string[] { JsonConvert.SerializeObject(certSetting), JsonConvert.SerializeObject(spSetting) };
+            var va = _config.GetSection("JobSettings");
+            var se = _config.GetValue("JobSettings");
+            return new string[] { JsonConvert.SerializeObject(certSetting), JsonConvert.SerializeObject(spSetting), JsonConvert.SerializeObject(va), se };
         }
 
         // POST api/<CRMApiController>
