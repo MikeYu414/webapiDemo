@@ -1,6 +1,10 @@
 ﻿using Ave.WebJob.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Xrm.Sdk;
+using Newtonsoft.Json;
+using NuGet.Configuration;
+using SharePoint.Models;
+using System.Configuration;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,7 +25,9 @@ namespace WebApiDemo.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            var certSetting = _config.GetSection("SharePointCertificate").Get<SPCertificateSetting>();
+            var spSetting = _config.GetSection("SharePointConnection").Get<SharePointSettingsModel>();
+            return new string[] { JsonConvert.SerializeObject(certSetting), JsonConvert.SerializeObject(spSetting) };
         }
 
         // POST api/<CRMApiController>
