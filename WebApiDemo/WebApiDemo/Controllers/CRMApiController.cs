@@ -1,4 +1,5 @@
 ﻿using Ave.WebJob.Common;
+using Batchjob.App.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Xrm.Sdk;
 using Newtonsoft.Json;
@@ -28,18 +29,21 @@ namespace WebApiDemo.Controllers
             var certSetting = _config.GetSection("SharePointCertificate").Get<SPCertificateSetting>();
             var spSetting = _config.GetSection("SharePointConnection").Get<SharePointSettingsModel>();
             var va = _config.GetSection("JobSettings");
-            var se = _config.GetValue("JobSettings");
-            return new string[] { JsonConvert.SerializeObject(certSetting), JsonConvert.SerializeObject(spSetting), JsonConvert.SerializeObject(va), se };
+            var se = _config.GetValue<string>("JobSettings");
+            var jobSetting = _config.GetSection("JobSettings").Get<JobSettingModel>();
+            return new string[] { JsonConvert.SerializeObject(certSetting), JsonConvert.SerializeObject(spSetting), JsonConvert.SerializeObject(va), 
+                JsonConvert.SerializeObject(jobSetting),
+se };
         }
 
-        // POST api/<CRMApiController>
-        [HttpPost]
-        public void Post()
-        {
-            var client = new D365ConnectionService(_config).GetOrganizationService();
-            Entity entity = new Entity("new_webjob");
-            entity["new_name"] = DateTime.Now.ToString("s");
-            client.Create(entity);
-        }
+        //// POST api/<CRMApiController>
+        //[HttpPost]
+        //public void Post()
+        //{
+        //    var client = new D365ConnectionService(_config).GetOrganizationService();
+        //    Entity entity = new Entity("new_webjob");
+        //    entity["new_name"] = DateTime.Now.ToString("s");
+        //    client.Create(entity);
+        //}
     }
 }
