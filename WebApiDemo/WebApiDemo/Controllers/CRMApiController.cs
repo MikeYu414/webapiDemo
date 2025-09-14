@@ -26,15 +26,13 @@ namespace WebApiDemo.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            var certSetting = _config.GetSection("SharePointCertificate").Get<SPCertificateSetting>();
-            var str = _config.GetValue<string>("SharePointCertificate");
-            var spSetting = _config.GetSection("SharePointConnection").Get<SharePointSettingsModel>();
-            var str1 = _config.GetValue<string>("SharePointConnection");
+            var certSetting = _config.GetSmartValue<SPCertificateSetting>("SharePointCertificate");
+            var spSetting = _config.GetSmartValue<SharePointSettingsModel>("SharePointConnection");
 
             var va = _config.GetSection("JobSettings");
             var se = _config.GetValue<string>("JobSettings");
             var jobSetting = _config.GetSection("JobSettings").Get<JobSettingModel>();
-            return new string[] { str,str1,JsonConvert.SerializeObject(certSetting), JsonConvert.SerializeObject(spSetting), JsonConvert.SerializeObject(va), 
+            return new string[] {JsonConvert.SerializeObject(certSetting), JsonConvert.SerializeObject(spSetting), JsonConvert.SerializeObject(va), 
                 JsonConvert.SerializeObject(jobSetting),
 se };
         }
